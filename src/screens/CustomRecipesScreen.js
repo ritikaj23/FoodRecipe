@@ -20,15 +20,15 @@ export default function CustomRecipesScreen() {
     const dispatch = useDispatch();
 
     const route = useRoute();
-    const { recipe } = route.params || {}; // Pass the  object as a parameter
+    const { recipe } = route.params || {}; // Pass the recipe object as a parameter
     console.log('recipe', recipe);
 
-    const favoriteRecipe = useSelector(
+    const favoriteRecipes = useSelector(
         (state) => state.favorites.favoriterecipes
     );
-    console.log('favoriteRecipe from custom', favoriteRecipe);
+    console.log('favoriteRecipe from custom', favoriteRecipes);
 
-    const isFavourite = favoriteRecipe.includes(recipe.idCategory); // Adjust this according to your recipe structure
+    const isFavourite = favoriteRecipes.some((fav) => fav.idFood === recipe.idFood); // Check if the recipe is favorite
 
     if (!recipe) {
         return (
@@ -39,7 +39,7 @@ export default function CustomRecipesScreen() {
     }
 
     const handleToggleFavorite = () => {
-        dispatch(toggleFavorite(recipe)); // Adjust the action to handle recipe
+        dispatch(toggleFavorite(recipe)); // Toggle the recipe's favorite status
     };
 
     return (
@@ -51,17 +51,20 @@ export default function CustomRecipesScreen() {
             {/* Recipe Image */}
             <View style={styles.imageContainer} testID="imageContainer">
                 {recipe.image && (
-                    <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+                    <Image
+                        source={{ uri: recipe.image }}
+                        style={styles.recipeImage}
+                    />
                 )}
             </View>
-            <View
-                style={styles.topButtonsContainer} testID="topButtonsContainer"
-            >
+
+            {/* Top Buttons Container */}
+            <View style={styles.topButtonsContainer} testID="topButtonsContainer">
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={styles.backButton}
                 >
-                    <Text>Back</Text>
+                    <Text>Go Back</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={handleToggleFavorite}
@@ -97,10 +100,8 @@ const styles = StyleSheet.create({
     },
     recipeImage: {
         width: wp(98),
-        height: hp(50),
+        height: hp(35), // Use hp(35) for height
         borderRadius: 35,
-        borderBottomLeftRadius: 40,
-        borderBottomRightRadius: 40,
         marginTop: 4,
     },
     contentContainer: {

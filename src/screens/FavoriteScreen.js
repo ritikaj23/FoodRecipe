@@ -13,36 +13,25 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
- 
+
 export default function FavoriteScreen() {
     const navigation = useNavigation();
 
-    // Assuming you have a similar structure for recipes in your Redux store
+    // Get the list of favorite recipes from the Redux store
     const favoriteRecipes = useSelector((state) => state.favorites);
-    console.log('favoriteRecipes:', favoriteRecipes); // Add this line
-    const favoriteRecipesList = favoriteRecipes?.favoriterecipes || [];
-    // console.log(favoriteRecipes.favoriterecipes);
-    console.log('favoriteRecipesList', favoriteRecipesList);
+    const favoriteRecipesList = favoriteRecipes?.favoriterecipes || []; // Safely access the favorites list
 
-
-
+    // If there are no favorite recipes, display a message
     if (favoriteRecipesList.length === 0) {
         return (
             <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>No favorite recipes yet!</Text>
-                {/* add back button */}
+                {/* Back button */}
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
-                    style={{
-                        backgroundColor: "#2563EB",
-                        padding: 10,
-                        borderRadius: 5,
-                        marginTop: 10,
-                        width: 100,
-                        alignItems: "center ",
-                    }}
+                    style={styles.backButton}
                 >
-                    <Text style={{ color: "#fff" }}>Go back</Text>
+                    <Text style={styles.backButtonText}>Go back</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -51,34 +40,25 @@ export default function FavoriteScreen() {
     return (
         <>
             {/* Heading */}
-            <View testID="FavoriteRecipes">
-                <Text
-                    style={{ fontSize: hp(3.8), marginTop: hp(4), marginLeft: 20 }}
-                    className="font-semibold text-neutral-600"
-                >
+            <View testID="favoriteRecipes">
+                <Text style={styles.headingText}>
                     My Favorite Recipes
                 </Text>
             </View>
 
+            {/* Go Back Button */}
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{
-                    backgroundColor: "#2563EB",
-                    padding: 10,
-                    borderRadius: 5,
-                    marginTop: 10,
-                    width: 100,
-                    alignItems: "center",
-                    marginLeft: 20,
-                }}
+                style={styles.backButton}
             >
-                <Text style={{ color: "#fff" }}>Go back</Text>
+                <Text style={styles.backButtonText}>Go back</Text>
             </TouchableOpacity>
 
+            {/* FlatList to display favorite recipes */}
             <FlatList
                 data={favoriteRecipesList}
                 contentContainerStyle={styles.listContentContainer}
-                keyExtractor={(item) => item.idFood + item.recipeName}
+                keyExtractor={(item) => item.idFood} // Unique key extractor using idFood
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() => navigation.navigate("RecipeDetail", { item })}
@@ -94,7 +74,6 @@ export default function FavoriteScreen() {
                     </TouchableOpacity>
                 )}
             />
-
         </>
     );
 }
@@ -108,6 +87,25 @@ const styles = StyleSheet.create({
     emptyText: {
         fontSize: hp(2.5),
         color: "#6B7280", // text-neutral-600
+    },
+    headingText: {
+        fontSize: hp(3.8),
+        marginTop: hp(4),
+        marginLeft: wp(4),
+        fontWeight: "bold",
+        color: "#4B5563", // text-neutral-700
+    },
+    backButton: {
+        backgroundColor: "#2563EB",
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+        width: 100,
+        alignItems: "center",
+        marginLeft: wp(4),
+    },
+    backButtonText: {
+        color: "#fff",
     },
     listContentContainer: {
         paddingHorizontal: wp(4),
