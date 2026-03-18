@@ -3,6 +3,8 @@
     "name": "recipeApplication",
     "slug": "recipeApplication",
     "version": "1.0.0",
+    "assetBundlePatterns": ["**/*"],
+    "platforms": ["ios", "android", "web"]
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
