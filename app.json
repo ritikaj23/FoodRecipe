@@ -2,7 +2,7 @@
   "expo": {
     "name": "recipeApplication",
     "slug": "recipeApplication",
-     "privacy": "public",
+    "privacy": "public",
     "platforms": [
       "ios",
       "android",
