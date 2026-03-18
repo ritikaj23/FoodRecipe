@@ -2,9 +2,13 @@
   "expo": {
     "name": "recipeApplication",
     "slug": "recipeApplication",
+     "privacy": "public",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"],
-    "platforms": ["ios", "android", "web"]
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
